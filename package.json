@@ -1,0 +1,31 @@
+{
+  "name": "next-redirect-issue",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:start": "opennextjs-cloudflare preview -- --env preview --port 3000",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview -- --env preview --port 3000",
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "lint": "next lint",
+    "e2e": "playwright test **/*.spec.ts"
+  },
+  "dependencies": {
+    "next": "canary",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250816.0",
+    "@opennextjs/cloudflare": "^1.6.5",
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5",
+    "wrangler": "4.28.1"
+  },
+  "packageManager": "yarn@4.9.4"
+}

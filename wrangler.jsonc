@@ -1,0 +1,54 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "yoohahn-preview",
+  "compatibility_date": "2025-08-16",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "enable_nodejs_http_modules",
+    "nodejs_compat_populate_process_env",
+  ],
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+    },
+  },
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "preview_urls": false,
+  "env": {
+    "preview": {
+      "route": {
+        "pattern": "SUB_DOMAIN.workers.dev",
+        "custom_domain": true,
+      },
+      "r2_buckets": [
+        {
+          "bucket_name": "preview-r2",
+          "binding": "NEXT_INC_CACHE_R2_BUCKET",
+        },
+      ],
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "NEXT_CACHE_DO_QUEUE",
+            "class_name": "DOQueueHandler",
+          },
+          {
+            "name": "NEXT_TAG_CACHE_DO_SHARDED",
+            "class_name": "DOShardedTagCache",
+          },
+        ],
+      },
+      "migrations": [
+        {
+          "tag": "v1",
+          "new_sqlite_classes": ["DOQueueHandler", "DOShardedTagCache"],
+        },
+      ],
+    },
+  },
+}

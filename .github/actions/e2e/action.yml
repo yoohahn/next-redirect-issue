@@ -1,0 +1,26 @@
+name: "Shared e2e setup"
+description: "Install dependencies"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Playwright tests
+      shell: bash
+      run: |
+        yarn run e2e
+      env:
+        CI: true
+
+    - name: Playwright Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: Report
+        path: playwright-report/
+        retention-days: 31
+
+    - name: Playwright Screenshots
+      uses: actions/upload-artifact@v4
+      with:
+        name: Screenshots
+        path: e2e/screenshots/
+        retention-days: 31

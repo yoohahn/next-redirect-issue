@@ -1,0 +1,38 @@
+name: Next
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+  workflow_dispatch:
+env:
+  OPEN_NEXT: "false"
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event.action != 'closed'
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Dependencies
+        uses: ./.github/actions/install-dependencies
+
+      - name: Build Next
+        run: |
+          yarn run build
+
+      - name: Build Start
+        run: |
+          nohup yarn run start &
+
+      - name: Run e2e tests
+        uses: ./.github/actions/e2e
